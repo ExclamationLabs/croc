@@ -1,0 +1,30 @@
+<div class="page-wrapper">
+	<header>
+		<h1>Croc <strong><%= title %></strong></h1>
+		<ul class="main-nav">
+			<li class="nav-item <%= (section == 'profile') ? 'active' : '' %>"><a href="profile?partial=true">Your Profile</a></li>
+			<% if (user.admin) { %>
+				<li class="nav-item <%= (section == 'system') ? 'active' : '' %>"><a href="system?partial=true">System</a></li>
+				<li class="nav-item <%= (section == 'users') ? 'active' : '' %>"><a href="users?partial=true">Users</a></li>
+				<li class="nav-item <%= (section == 'modules') ? 'active' : '' %>"><a href="modules?partial=true">Modules</a></li>
+			<% } %>
+		</ul>
+		<div class="active-user hover-context">
+			<img class="avatar medium" src="<%= user.getAvatar() %>">
+			<span class="nav-container">
+				<ul class="nav-context">
+					<li>
+						<a href="/logout">Logout</a>
+					</li>
+				</ul>
+			</span>
+		</div>
+	</header>
+
+	<div id="content">
+		<%- partial ('sections') %>
+	</div>
+
+</div>
+
+<%- partial ('../partials/sidebar') %>

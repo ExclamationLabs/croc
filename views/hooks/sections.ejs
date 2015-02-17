@@ -1,0 +1,68 @@
+<% if (section == 'stats') { %>
+	<div class="section nav-target" id="stats">
+		<h1>TODO: Add Stats</h1>
+	</div>
+
+<% } else if (section == 'logs') { %>
+	<%
+
+	monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+	%>
+	<div class="section nav-target" id="logs">
+		<% _.each(hook.logs, function(log, i) { %>
+			<div class="log <%= log.type %>">
+				<div class="title-bar">
+					<% date = new Date(log.timestamp) %>
+					<%= monthNames[date.getMonth()] %>. <%= date.getDate() %>, <%= date.getFullYear() %>
+					- <%= date.toString().match(/\d+:\d+:\d+/) %>
+				</div>
+				<div class="log-message" <%- (i > 0) ? 'style="display:none;"' : '' %>>
+
+					<% if (log.type == 'success') { %>
+						<%= log.message %>
+					<% } else { %>
+						<div class="output stack">
+							<strong>Stack Trace</strong>
+							<div class="preformatted">
+								<pre><%= log.message %></pre>
+							</div>
+						</div>
+					<% } %>
+
+					<% if (log.output.length > 0) { %>
+						<div class="output">
+							<strong>Output</strong>
+							<div class="preformatted">
+								<% _.each(log.output, function(o) { %><pre class="type-<%= o.type %>"><%= o.message %></pre><% }) %>
+							</div>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		<% }) %>
+	</div>
+
+<% } else if (section == 'settings') { %>
+	<% if (userIsOwner || user.admin) { %>
+		<div class="section nav-target" id="settings">
+			<h1>Edit Hook Settings</h1>
+			<form class="ajax full-width" action="/hook/<%= hook.id %>" method="post">
+				<label for="name">Name</label>
+				<input class="large" type="text" name="name" value="<%= hook.name %>">
+				<label for="slug">Slug</label>
+				<input class="large" type="text" name="slug" value="<%= hook.slug %>">
+				<% if (user.admin) { %>
+					<div class="checkbox-field">
+						<input class="large" type="checkbox" name="hidden"<%= (hook.hidden) ? 'checked="checked"' : '' %>>
+						<label for="hidden">Hidden</label>
+					</div>
+				<% } %>
+				<div class="button-group">
+					<button class="medium">Save</button>
+					<a href="#" data-action="delete-hook" data-rel="<%= hook.id %>" class="medium button danger no-fill">Delete Hook</a>
+				</div>
+			</form>
+		</div>
+	<% } %>
+<% } %>

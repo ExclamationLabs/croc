@@ -1,0 +1,150 @@
+@import '../grid';
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+/*
+ * Mixin to calculate and the width of a column */
+.column-width(@num, @margin) {
+    width: (100% - @margin * (@num - 1)) / @num;
+}
+
+.row {
+    .clearfix();
+}
+
+.columns {
+    width: 100%;
+    height: 100%;
+
+    @col-margin: 3%;
+
+    .col {
+        float: left;
+        height: 100%;
+    }
+
+    .col + .col {
+        margin-left: @col-margin;
+    }
+
+    &.two {
+        .col {
+            .column-width(2, @col-margin);
+        }
+    }
+
+    &.three {
+        .col {
+            .column-width(3, @col-margin);
+        }
+    }
+}
+
+.full-width {
+    width: 100%;
+    display: block;
+}
+
+.section {
+    margin-left: 35px;
+    .clearfix();
+
+    + .section {
+        margin-top: 30px;
+    }
+}
+
+#hook-edit {
+    padding-right: 55%;
+
+    .hook-title {
+        height: 112px;
+        padding-top: 30px;
+        box-sizing: border-box;
+        .clearfix();
+
+        .avatar {
+            float: left;
+            margin-right: 15px;
+        }
+
+        .name {
+            color: @color-gray-darker;
+            margin-bottom: 5px;
+        }
+
+        .slug {
+            font-size: 12px;
+        }
+    }
+}
+
+.hook-data-wrapper {
+    .section {
+        padding-right: 30px;
+    }
+}
+
+.hook-code-wrapper {
+    width: 55%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding-top: 15px;
+    padding-bottom: 70px;
+    background-color: #2C2828;
+    box-sizing: border-box;
+
+    #editor {
+        height: 100%;
+        font-size: 13px;
+
+        .ace_print-margin { display: none; }
+        .ace_gutter-layer { min-width: 55px; }
+    }
+
+    .button-bar {
+        width: 100%;
+        height: 70px;
+        position: absolute;
+        bottom: 0;
+        background-color: #202020;
+        z-index: 8000;
+        box-sizing: border-box;
+        padding-top: 15px;
+        padding-left: 15px;
+
+        .title {
+            line-height: 40px;
+            color: #fff;
+        }
+    }
+}
+
+.module-info {
+    position: relative;
+
+    .info-item {
+        margin-bottom: 10px;
+    }
+
+    .module-link {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+
+        svg {
+            width: 15px;
+            height: 15px;
+            fill: @color-primary-dark;
+        }
+    }
+}
+
+.delete-module-form {
+    margin-top: 10px;
+}

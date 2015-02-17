@@ -1,0 +1,108 @@
+<div id="hook-edit" class="page-wrapper">
+	<div class="hook-data-wrapper">
+		<header>
+			<div class="hook-title section">
+				<img class="avatar medium" title="<%= hook.owner.getFullName() %>" src="<%= hook.owner.getAvatar() %>">
+				<h2 class="name"><%= hook.name %></h2>
+				<span class="slug"><%= system.settings.domain %>/run/<%= hook.slug %></span>
+			</div>
+			<ul class="main-nav">
+				<li class="nav-item active"><a href="logs">Logs</a></li>
+				<% if (userIsOwner || user.admin) { %>
+					<li class="nav-item icon-item">
+						<a href="settings">
+							<svg class="icon">
+								<use xlink:href="#cog"></use>
+							</svg>
+						</a>
+					</li>
+				<% } %>
+			</ul>
+		</header>
+
+		<div id="content">
+			<%- partial ('sections', { section: 'logs' }) %>
+		</div>
+	</div>
+
+	<div class="hook-code-wrapper">
+		<div id="editor"></div>
+		<div class="button-bar script">
+			<button class="medium" id="save-script">Save</button>
+		</div>
+		<div class="button-bar payload" style="display:none;">
+			<h3 class="title">Last Payload</h3>
+		</div>
+	</div>
+</div>
+
+<%
+locals.sidebarLinks = [
+	{ href: '#', icon: 'js', class: 'toggle-codeview', rel: 'script', active: true },
+	{ href: '#', icon: 'code', class: 'toggle-codeview', rel: 'payload' }
+]
+%>
+
+<script type="text/javascript">
+	var editor = ace.edit("editor")
+		, code = {
+			script: '<%- helper.escapeJS(hook.script) %>',
+			<% if (hook.latestPayload) { %>
+			payload: JSON.stringify(JSON.parse('<%- helper.escapeJS(hook.latestPayload) %>'), null, '\t')
+			<% } else { %>
+			payload: ''
+			<% } %> 
+		}
+		, activeCode = 'script';
+
+    editor.setTheme("ace/theme/pastel_on_dark");
+    editor.getSession().setMode("ace/mode/javascript");
+    editor.setValue(code[activeCode]);
+
+    $(function() {
+
+	    $('#save-script').on('click', function(e) {
+	    	e.preventDefault();
+
+	    	var script = editor.getValue();
+
+	    	$.post('/hook/<%= hook.id %>/script', { script: script })
+	    		.done(function(data) {
+					console.log(data);
+					displayMessage('success', data.message);
+				})
+				.fail(function(data) {
+					console.log(data.responseJSON);
+					displayMessage('error', data.responseJSON.message);
+				});
+	    });
+
+	    $('.toggle-codeview a').on('click', function(e) {
+			var $this = $(this).parents('.toggle-codeview')
+				, rel = $this.attr('data-rel');
+
+			// Save the current codeview
+			code[activeCode] = editor.getValue();
+
+			// Set nav item to active
+			$('[data-rel="' + activeCode + '"]').removeClass('active');
+			$this.addClass('active');
+
+			// Show new code
+			activeCode = rel;
+			editor.setValue(code[activeCode]);
+
+			// Hide save buttons for payload
+			if (activeCode == 'payload') {
+				$('.hook-code-wrapper .button-bar.script').hide();
+				$('.hook-code-wrapper .button-bar.payload').show();
+			} else {
+				$('.hook-code-wrapper .button-bar.payload').hide();
+				$('.hook-code-wrapper .button-bar.script').show();
+			}
+		});
+
+	});
+</script>
+
+<%- partial ('../partials/sidebar') %>

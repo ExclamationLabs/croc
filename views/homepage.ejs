@@ -1,0 +1,48 @@
+<div class="page-wrapper">
+	<header>
+		<h1>Croc <strong><%= title %></strong></h1>
+		<ul class="main-nav"></ul>
+		<div class="active-user hover-context">
+			<img class="avatar medium" src="<%= user.getAvatar() %>">
+			<span class="nav-container">
+				<ul class="nav-context">
+					<li>
+						<a href="/logout">Logout</a>
+					</li>
+				</ul>
+			</span>
+		</div>
+	</header>
+
+	<div class="section">
+		<form class="inline" action="/hook" method="post">
+			<legend><h1>New Hook</h1></legend>
+			<input type="text" class="large" name="name" placeholder="Name">
+			<button type="submit" class="large">Go!</button>
+		</form>
+	</div>
+
+	<div class="section">
+		<div class="row">
+			<div class="col span-3">
+				<h1>Your Hooks</h1>
+				<ul class="link-list">
+					<% for (var i = 0; i < hooks.user.length; i++) { %>
+					 	<li><a href="/hook/<%= hooks.user[i].id %>/"><%= hooks.user[i].name %></a></li>
+					 <% } %>
+				</ul>
+			</div>
+			<div class="col span-3">
+				<h1>All Hooks</h1>
+				<ul class="link-list">
+					<% for (var i = 0; i < hooks.all.length; i++) { %>
+					 	<li><a href="/hook/<%= hooks.all[i].id %>/"><%= hooks.all[i].name %></a></li>
+					 <% } %>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<%- partial ('partials/sidebar') %>

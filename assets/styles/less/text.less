@@ -1,0 +1,56 @@
+// -- open_sansregular
+@import (less) '../../fonts/opensans_regular_macroman/stylesheet.css';
+
+@font-primary: 'open_sansregular', Helvetica, Arial, sans-serif;
+
+body, html {
+	font-family: @font-primary;
+	color: @color-gray-darker;
+}
+
+body, html, button, input {
+	-webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: @color-primary-medium;
+}
+
+h1 { font-size: 30px; }
+h2 { font-size: 25px; }
+h3, h4, h5, h6 { font-size: 20px; }
+
+p {
+	line-height: 1.5em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	> strong {
+		color: @color-gray-darker;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: @color-gray-darker;
+
+	&:visited {
+		color: inherit;
+	}
+
+	.icon {
+		fill: @color-gray-darker;
+	}
+}
+
+.text-small {
+	font-size: 12px;
+}
+
+.label {
+	background-color: #c8cccf;
+	border-radius: 2px;
+	font-size: 10px;
+	color: #fff;
+	padding: 2px 10px;
+}

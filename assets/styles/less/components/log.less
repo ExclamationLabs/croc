@@ -1,0 +1,77 @@
+.log {
+	border-width: 1px;
+	border-style: solid;
+
+	+ .log {
+		margin-top: 30px;
+	}
+
+	.title-bar {
+		color: #fff;
+		cursor: pointer;
+	}
+
+	.title-bar,
+	.log-message {
+		padding: 10px;
+	}
+
+	.output {
+		margin-top: 30px;
+
+		strong {
+			display: inline-block;
+			margin-bottom: 10px;
+		}
+
+		.preformatted {
+			display: block;
+			padding: 10px;
+			overflow-x: scroll;
+
+			pre {
+				display: block;
+			}
+		}
+
+		pre + pre {
+			padding-top: 0;
+		}
+
+		&.stack { margin-top: 0; }
+	}
+
+	&.success {
+		border-color: @color-green-light;
+
+		.title-bar {
+			background-color: @color-green-light;
+		}
+
+		.log-message {
+			color: @color-green-dark;
+		}
+
+		.preformatted {
+			background-color: @color-green-dark;
+			color: #fff;
+		}
+	}
+
+	&.error {
+		border-color: @color-red-light;
+
+		.title-bar {
+			background-color: @color-red-light;
+		}
+
+		.log-message {
+			color: @color-red-dark;
+		}
+
+		.preformatted {
+			background-color: @color-red-dark;
+			color: #fff;
+		}
+	}
+}

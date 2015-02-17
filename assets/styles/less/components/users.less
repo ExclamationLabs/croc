@@ -1,0 +1,57 @@
+.active-user {
+	position: relative;
+	display: inline-block;
+
+	.nav-container {
+		display: block;
+		position: relative;
+		opacity: 0;
+		-webkit-transition: opacity 0.25s ease-in;
+		-moz-transition: opacity 0.25s ease-in;
+		transition: opacity 0.25s ease-in;
+	}
+
+	.nav-context {
+		position: absolute;
+		top: 0;
+		-webkit-transition: top 0.25s ease-in;
+		-moz-transition: top 0.25s ease-in;
+		transition: top 0.25s ease-in;
+	}
+
+	&:hover {
+		.nav-container {
+			opacity: 1;
+		}
+
+		.nav-context {
+			top: 10px;
+		}
+	}
+}
+
+.user-info {
+	.clearfix();
+	margin-bottom: 30px;
+
+	.info-group {
+		float: left;
+
+		+ .info-group {
+			margin-left: 10px;
+		}
+
+		&.center {
+			text-align: center;
+		}
+	}
+
+	.avatar {
+		margin-bottom: 10px;
+	}
+
+	strong {
+		display: inline-block;
+		font-weight: normal;
+	}
+}

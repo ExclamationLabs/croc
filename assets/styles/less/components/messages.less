@@ -1,0 +1,72 @@
+#messages {
+	position: absolute;
+	width: 100%;
+	z-index: 9999;
+}
+
+.message {
+	width: 100%;
+	padding: 10px;
+	display: block;
+	color: #fff;
+	text-align: center;
+	box-sizing: border-box;
+	position: relative;
+	-webkit-animation-name: show-message;
+	-webkit-animation-timing-function: ease-in;
+	-webkit-animation-duration: 0.5s;
+	-moz-animation-name: show-message;
+	-moz-animation-timing-function: ease-in;
+	-moz-animation-duration: 0.5s;
+	animation-name: show-message;
+	animation-timing-function: ease-in;
+	animation-duration: 0.5s;
+
+	&.active {
+		opacity: 1;
+	}
+
+	&.error {
+		background-color: @color-red-light;
+	}
+
+	&.success {
+		background-color: @color-green-light;
+	}
+}
+
+@-webkit-keyframes show-message {
+	0% {
+		top: -20px;
+		opacity: 0;
+	}
+
+	100% {
+		top: 0px;
+		opacity: 1;
+	}
+}
+
+@-moz-keyframes show-message {
+	0% {
+		top: -20px;
+		opacity: 0;
+	}
+
+	100% {
+		top: 0px;
+		opacity: 1;
+	}
+}
+
+@keyframes show-message {
+	0% {
+		top: -20px;
+		opacity: 0;
+	}
+
+	100% {
+		top: 0px;
+		opacity: 1;
+	}
+}

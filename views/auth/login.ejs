@@ -1,0 +1,44 @@
+<!-- <div class="centered">
+	<form class="login-form" action="/auth/local" method="post">
+		<% if (errors && errors.length > 0) { %>
+			<div class="errors">
+			<% errors.forEach(function (error) { %>
+				<span class="error"><%= __(error) %></span>
+			<% }) %>
+			</div>
+		<% } %>
+		<div class="container">
+			<fieldset>
+				<legend>
+					<h2>Please <strong>Login</strong></h2>
+				</legend>
+				<input class="large full-width" type="text" name="identifier" placeholder="Username or Email">
+				<input class="large full-width" type="password" name="password" placeholder="Password">
+			</fieldset>
+		</div>
+		<button class="large" type="submit">Let's Do This Thing!</button>
+	</form>
+</div> -->
+
+<div class="site-header">
+	<img class="logo" src="images/logo-header.svg" width="362">
+</div>
+
+
+<form class="login-form" action="/auth/local" method="post">
+	<div class="container no-fill no-padding">
+		<legend>
+			<h2>Please <strong>Login</strong></h2>
+		</legend>
+		<% if (errors && errors.length > 0) { %>
+			<div class="errors">
+			<% errors.forEach(function (error) { %>
+				<span class="error"><%= __(error) %></span>
+			<% }) %>
+			</div>
+		<% } %>
+		<input class="large full-width" type="text" name="identifier" placeholder="Username or Email">
+		<input class="large full-width" type="password" name="password" placeholder="Password">
+		<button class="large" type="submit">Let's Do This Thing!</button>
+	</div>
+</form>
