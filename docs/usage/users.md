@@ -9,7 +9,7 @@ limited access to certain features of Croc which out outlined below:
 ## Permissions
 
 | Ability                         | user | admin |
-|------------------------------------------------|
+|---------------------------------|------|-------|
 | Login                           | yes  | yes   |
 | Create/Update/Delete Hooks [*]  | yes  | yes   |
 | Add modules                     | no   | yes   |
