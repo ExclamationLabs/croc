@@ -12,7 +12,7 @@
 
 module.exports = {
 
-	// By default CaptainHook uses mongoDB as its datastore.
+	// By default Croc uses mongoDB as its datastore.
 	// This can be changed by adding a new adapter, and modifying
 	// these connection settings as appropriate.
 	connections: {
@@ -22,7 +22,7 @@ module.exports = {
 			port: 27017,
 			user: 'username',
 			password: 'password',
-			database: 'captain_hook'
+			database: 'croc_db'
 		}
 	},
 
