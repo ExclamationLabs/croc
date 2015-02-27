@@ -1,0 +1,25 @@
+/**
+ * layouts/containers.less
+ * -----------------------
+ * Styles to define container layouts
+ */
+
+
+.container {
+	max-width: @content-width;
+	width: 100%;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+
+@media @mobile-only {
+	.container {
+		padding: 0 35px;
+	}
+}
+
+@media @gt-mobile-lt-desktop {
+	.container {
+		padding: 0 35px;
+	}
+}

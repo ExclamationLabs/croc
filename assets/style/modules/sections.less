@@ -1,0 +1,132 @@
+/**
+ * modules/sections.less
+ * ---------------------
+ * Syles for the site sections
+ */
+
+
+section {
+	box-sizing: border-box;
+	overflow: hidden;
+
+	@media @mobile-only {
+		padding: 30px 0;
+	}
+
+	@media @not-mobile {
+		padding: 60px 0;
+	}
+
+	h2 {
+		text-align: center;
+		margin-bottom: 1.5em;
+		line-height: 1.25em;
+	}
+
+	&.light {
+		color: #808080;
+		background-color: transparent;
+
+		h2 {
+			color: @theme-primary;
+		}
+	}
+
+	&.hero {
+		background-color: @theme-primary;
+		text-align: center;
+		position: relative;
+
+		img {
+			display: block;
+			margin: 0 auto;
+			box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.5);
+			max-width: 690px;
+			width: 100%;
+		}
+
+		@media @lt-tablet {
+			img {
+				display: none;
+			}
+
+			h2 {
+				margin-bottom: 0;
+			}
+		}
+
+		@media @desktop-only {
+			padding-bottom: 0;
+		}
+
+		@media @tablet-only {
+			padding-bottom: 0;
+		}
+	}
+
+	&.access {
+		background-color: #fff;
+		text-align: center;
+		padding: 25px 0;
+
+		@media @lt-tablet {
+			.button {
+				display: block;
+				margin: 0 auto;
+				width: 100%;
+
+				+.button {
+					margin-top: 15px;
+				}
+			}
+		}
+	}
+
+	&.about {
+		background-color: @theme-dark;
+
+		.graph {
+			display: block;
+			margin: 0 auto;
+			margin-top: 50px;
+		}
+
+		@media @lt-tablet{
+			text-align: center;
+
+			.row {
+				margin-left: 0;
+			}
+
+			.col {
+				width: 100% !important;
+				margin-left: 0 !important;
+
+				+.col {
+					display: none;
+				}
+			}
+		}
+
+		@media @desktop-only {
+			.col {
+				.span_2();
+			}
+
+			.graph {
+				width: 90%;
+			}
+		}
+
+		@media @tablet-only {
+			.col {
+				.span_4();
+			}
+
+			.graph {
+				width: 50%;
+			}
+		}
+	}
+
+}
