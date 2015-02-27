@@ -1,5 +1,2 @@
 .DS_Store
-.tmp
 node_modules
-config/env/development.js
-config/env/production.js
