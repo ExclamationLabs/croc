@@ -1,0 +1,29 @@
+/**
+ * modules/buttons.less
+ * --------------------
+ * Button styles
+ */
+
+.button {
+	display: inline-block;
+	background-color: @theme-dark;
+	border-radius: 7px;
+	width: 250px;
+	height: 50px;
+	line-height: 50px;
+	box-shadow: 0 4px 0 @theme-darker;
+
+	+ .button {
+		margin-left: 25px;
+	}
+
+	&:hover {
+		background-color: @theme-primary;
+	}
+
+	&:active {
+		position: relative;
+		top: 2px;
+		box-shadow: 0 2px 0 @theme-darker;
+	}
+}

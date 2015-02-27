@@ -1,59 +1,84 @@
-/**
- * app.js
- *
- * Use `app.js` to run your app without `sails lift`.
- * To start the server, run: `node app.js`.
- *
- * This is handy in situations where the sails CLI is not relevant or useful.
- *
- * For example:
- *   => `node app.js`
- *   => `forever start app.js`
- *   => `node debug app.js`
- *   => `modulus deploy`
- *   => `heroku scale`
- *
- *
- * The same command-line arguments are supported, e.g.:
- * `node app.js --silent --port=80 --prod`
- */
+var moduleLoader = require('./lib/moduleLoader')
+	, assets = require('./lib/assets')
+	, express = require('express')
+	, partials = require('express-partials')
+	, expiry = require('static-expiry')
+	, winston = require('winston')
+	, Promise = require('promise')
+	, expressApp = express()
+	, router = express.Router()
+	, config
+	, controllers
+	, assetPipeline
+	, assetsComplete
 
-// Ensure we're in the project directory, so relative paths work as expected
-// no matter where we actually lift from.
-process.chdir(__dirname);
+// Initialize global values
+GLOBAL.app = {
+	// Load the config
+	config: require('./lib/config')(),
 
-// Ensure a "sails" can be located:
-(function() {
-  var sails;
-  try {
-    sails = require('sails');
-  } catch (e) {
-    console.error('To run an app using `node app.js`, you usually need to have a version of `sails` installed in the same directory as your app.');
-    console.error('To do that, run `npm install sails`');
-    console.error('');
-    console.error('Alternatively, if you have sails installed globally (i.e. you did `npm install -g sails`), you can use `sails lift`.');
-    console.error('When you run `sails lift`, your app will still use a local `./node_modules/sails` dependency if it exists,');
-    console.error('but if it doesn\'t, the app will run with the global sails instead!');
-    return;
-  }
+	// Load the controllers
+	controllers: moduleLoader('app/controllers'),
+};
 
-  // Try to get `rc` dependency
-  var rc;
-  try {
-    rc = require('rc');
-  } catch (e0) {
-    try {
-      rc = require('sails/node_modules/rc');
-    } catch (e1) {
-      console.error('Could not find dependency: `rc`.');
-      console.error('Your `.sailsrc` file(s) will be ignored.');
-      console.error('To resolve this, run:');
-      console.error('npm install rc --save');
-      rc = function () { return {}; };
-    }
-  }
+// Initialze logging
+require('./lib/logger');
 
+// Start the asset pipeline
+assetPipeline = Promise.denodeify(assets);
+assetsComplete = assetPipeline(app.config.http.assetPath, app.config.http.staticPath, 'default');
 
-  // Start server
-  sails.lift(rc('sails'));
-})();
+// Setup the views
+expressApp.set('views', __dirname + '/app/views');
+expressApp.set('view engine', 'ejs');
+
+// Finsish loading the application once the asset pipeline has completed
+assetsComplete.then(function() {
+	// Load middleware
+	initMiddleware();
+
+	// Load the routes
+	initRoutes();
+
+	// Start the webserver
+	startServer();
+});
+
+function initMiddleware() {
+	// Enable partials
+	expressApp.use(partials());
+
+	logger.verbose('*************************************');
+	logger.verbose('Initializing the static asset cache');
+	logger.verbose('`````````````````````````````````````');
+	logger.verbose('Serving files from: %s', __dirname + '/' + app.config.http.staticPath);
+	if (process.env.NODE_ENV != 'production') {
+		logger.verbose('View cache at GET /expiry');
+	}
+	logger.verbose('*************************************');
+
+	// Start static asset caching
+	expressApp.use(expiry(expressApp, {
+		dir: __dirname + '/' + app.config.http.staticPath,
+		debug: process.env.NODE_ENV != 'production'
+	}));
+
+	// Serve static assets
+	expressApp.use(express.static(__dirname + '/' + app.config.http.staticPath));
+
+	// Request logging
+	expressApp.use(function(req, res, next) {
+		logger.log('verbose', req.method + ' ' + req.path);
+		next();
+	});
+}
+
+function initRoutes() {
+	GLOBAL.app.routes = require('./lib/parseRoutes')(expressApp, app.config.routes)
+}
+
+function startServer() {
+	var server = expressApp.listen(app.config.port, '0.0.0.0', function() {
+		logger.info('App listening at http://%s:%s', server.address().address, server.address().port);
+	});
+}

@@ -1,0 +1,43 @@
+/**
+ * modules/feature.less
+ * --------------------
+ * Syles for the features
+ */
+
+.feature-item {
+	margin: 0;
+	text-align: center;
+	padding: 0 30px;
+
+	@media @mobile-only {
+		.col();
+		.span_4();
+		min-height: 170px;
+		font-size: 0.9em;
+	}
+
+	@media @gt-mobile-lt-desktop {
+		.col();
+		.span_2();
+	}
+
+	@media @desktop-only {
+		.col();
+		.span_1();
+	}
+
+	@media @not-mobile {
+		min-height: 230px;
+	}
+
+	img {
+		width: 94px;
+	}
+
+	figcaption {
+		font-size: 0.8em;
+		line-height: 1.25em;
+		width: 215px;
+		margin: 0 auto;
+	}
+}
